@@ -6,6 +6,8 @@
 #define TIME_STEP 64
 #define MAX_SPEED .5
 #define MAX_CAMERA_SPEED 2.0
+#define MOVE_TIME 25
+#define TURN_TIME 19
 
 // All the webots classes are defined in the "webots" namespace
 using namespace webots;
@@ -73,8 +75,40 @@ int main(int argc, char** argv) {
     //int examlpeNum = 0;
 
     //*********Robot AI goes here*********
+    // Forwards CW
     MoveForward();
-    robot->step(TIME_STEP);
+    robot->step(TIME_STEP*MOVE_TIME);
+    TurnRight();
+    robot->step(TIME_STEP*TURN_TIME);
+    MoveForward();
+    robot->step(TIME_STEP*MOVE_TIME);
+    TurnRight();
+    robot->step(TIME_STEP*TURN_TIME);
+    MoveForward();
+    robot->step(TIME_STEP*MOVE_TIME);
+    TurnRight();
+    robot->step(TIME_STEP*TURN_TIME);
+    MoveForward();
+    robot->step(TIME_STEP*MOVE_TIME);
+    // Backwards CCW
+    TurnRight();
+    robot->step(TIME_STEP*35);
+    MoveBack();
+    robot->step(TIME_STEP*MOVE_TIME);
+    TurnLeft();
+    robot->step(TIME_STEP*TURN_TIME);
+    MoveBack();
+    robot->step(TIME_STEP*MOVE_TIME);
+    TurnLeft();
+    robot->step(TIME_STEP*TURN_TIME);
+    MoveBack();
+    robot->step(TIME_STEP*MOVE_TIME);
+    TurnLeft();
+    robot->step(TIME_STEP*TURN_TIME);
+    MoveBack();
+    robot->step(TIME_STEP*MOVE_TIME);
+    TurnLeft();
+    robot->step(TIME_STEP*35);
 
     //End of AI
     ResetMotors();
