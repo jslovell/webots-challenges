@@ -70,6 +70,14 @@ static void ResetMotors() {
     cameraMotor->setVelocity(0);
 }
 
+int* GetRGB(int width, int height, int vertOffset) {
+    int* array = new int[3];
+    array[0] = camera->imageGetRed(camera->getImage(), width, width / 2, height-1-vertOffset);
+    array[1] = camera->imageGetGreen(camera->getImage(), width, width / 2, height-1-vertOffset);
+    array[2] = camera->imageGetBlue(camera->getImage(), width, width / 2, height-1-vertOffset);
+    return array;
+}
+
 int main(int argc, char** argv) {
     //Create the robot instance.
     Robot* robot = new Robot();
@@ -99,41 +107,53 @@ int main(int argc, char** argv) {
     int height = camera->getWidth();
 
     //Robot AI goes here
-    MoveForward();
-    robot->step(TIME_STEP*50);
-    TurnLeft();
-    robot->step(TIME_STEP*19);
-    MoveForward();
-    robot->step(TIME_STEP*50);
-    TurnRight();
-    robot->step(TIME_STEP*19);
-    MoveForward();
-    robot->step(TIME_STEP*75);
-    TurnRight();
-    robot->step(TIME_STEP*19);
-    //is turned at top, clear duck
-    MoveForward();
-    robot->step(TIME_STEP*100);
-    MoveBack();
-    robot->step(TIME_STEP*50);
-    //parking
-    TurnRight();
-    robot->step(TIME_STEP*19);
-    MoveForward();
-    robot->step(TIME_STEP*35);
-    ResetMotors();
-
+    
+    DriveForward(-30);
+    int turnTime = 0;
     while (robot->step(TIME_STEP) != -1) {
         //Gets the RGB of the bottom middle pixel on the camera
-        int red = camera->imageGetRed(camera->getImage(), width, width / 2, height-1);
-        int green = camera->imageGetGreen(camera->getImage(), width, width / 2, height-1);
-        int blue = camera->imageGetBlue(camera->getImage(), width, width / 2, height-1);
-        
+        int* rgb = GetRGB(width, height, 10);
         //Print any test messages here
-        std::cout << "Red: " << red << ", Green: " << green << ", Blue: " << blue << std::endl;
-
-        //MoveForward();
+        std::cout << "Red: " << rgb[0] << ", Green: " << rgb[1] << ", Blue: " << rgb[2] << std::endl;
+        turnTime++;
+        if (rgb[2] < 100) {
+            delete[] rgb;
+            ResetMotors();
+            break;
+        } else {
+            delete[] rgb;
+        }
     }
+    robot->step(TIME_STEP * 5);
+    
+    DriveForward(30);
+    while (robot->step(TIME_STEP) != -1 && turnTime > 0) {
+        turnTime--;
+    }
+    ResetMotors();
+    robot->step(TIME_STEP * 5);
+    
+    DriveForward(30);
+    while (robot->step(TIME_STEP) != -1) {
+        //Gets the RGB of the bottom middle pixel on the camera
+        int* rgb = GetRGB(width, height, 10);
+        //Print any test messages here
+        std::cout << "Red: " << rgb[0] << ", Green: " << rgb[1] << ", Blue: " << rgb[2] << std::endl;
+        turnTime++;
+        if (rgb[2] < 100) {
+            delete[] rgb;
+            break;
+        } else {
+            delete[] rgb;
+        }
+    }
+    robot->step(TIME_STEP * 2);
+    ResetMotors();
+    robot->step(TIME_STEP * 5);
+    
+    DriveForward(0);
+    robot->step(TIME_STEP * 50);
+    
 
     //End of AI
     ResetMotors();
