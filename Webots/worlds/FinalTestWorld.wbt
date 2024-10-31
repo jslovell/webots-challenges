@@ -1,0 +1,462 @@
+#VRML_SIM R2023b utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/BrushedAluminium.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/CementTiles.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/BakelitePlastic.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/floors/protos/CircleArena.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/Parquetry.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/toys/protos/RubberDuck.proto"
+
+WorldInfo {
+}
+Viewpoint {
+  orientation 0.2303457874314101 -0.7972066630111091 -0.5580343669195432 5.233796074663229
+  position -6.250116553203545 -5.744278915420165 10.17834100651685
+  follow "rectangle arena"
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorSize 10 10
+  floorTileSize 1 1
+  floorAppearance Parquetry {
+    type "dark strip"
+    colorOverride 0 1 0
+    IBLStrength 10
+  }
+  wallThickness 0.1
+  wallHeight 0.5
+}
+Robot {
+  translation 0 0 0.322039
+  rotation -7.446280954922711e-05 0.9999999972275236 -4.92956870524963e-07 0.0004533540594886093
+  children [
+    Solid {
+      translation 0 0 0.2
+      children [
+        HingeJoint {
+          jointParameters HingeJointParameters {
+            position 1.570684131823706
+            axis 0 1 0
+            anchor 0 0 0.05
+          }
+          device [
+            RotationalMotor {
+              name "camera motor"
+              maxPosition 1.75
+            }
+          ]
+          endPoint Solid {
+            translation 0.09998742222317453 -6.1706398775118505e-06 0.0498832310261485
+            rotation 8.051351319636078e-06 0.9999999997402754 -2.1321931757945147e-05 1.5706841321991762
+            children [
+              Camera {
+                translation -7.13725e-07 0 0.16
+                rotation 0 1 0 -1.5707953071795862
+              }
+              DEF CameraMount Shape {
+                appearance BakelitePlastic {
+                }
+                geometry Box {
+                  size 0.05 0.1 0.3
+                }
+              }
+            ]
+            boundingObject USE CameraMount
+            physics Physics {
+            }
+          }
+        }
+        Shape {
+          appearance BakelitePlastic {
+          }
+          geometry Box {
+            size 0.05 0.1 0.1
+          }
+        }
+      ]
+      name "Camera Joint"
+      boundingObject Box {
+        size 0.05 0.1 0.025
+      }
+      physics Physics {
+      }
+    }
+    TouchSensor {
+      translation 0.25 0.1 0
+      rotation 0 0 1 0.261799
+      children [
+        DEF TouchSensor Shape {
+          appearance CementTiles {
+          }
+          geometry Box {
+            size 0.05 0.15 0.15
+          }
+        }
+      ]
+      name "left sensor"
+      boundingObject USE TouchSensor
+    }
+    TouchSensor {
+      translation 0.25 -0.1 0
+      rotation 0 0 1 -0.261799
+      children [
+        DEF TouchSensor Shape {
+          appearance CementTiles {
+          }
+          geometry Box {
+            size 0.05 0.15 0.15
+          }
+        }
+      ]
+      name "right sensor"
+      boundingObject USE TouchSensor
+    }
+    Track {
+      translation 0 0.3 -0.125
+      children [
+        TrackWheel {
+          position 0.175 0
+          rotation 0.033575032690995946 0.7067068161866917 -0.7067094120889207 3.0744680498817014
+          children [
+            Shape {
+              geometry Box {
+                size 0.1 0.1 0.1
+              }
+            }
+            DEF Sandwhich_Wheel Shape {
+              appearance PBRAppearance {
+              }
+              geometry Cylinder {
+                height 0.05
+                radius 0.1
+              }
+            }
+          ]
+        }
+        TrackWheel {
+          position -0.175 0
+          rotation 0.033575032690995946 0.7067068161866917 -0.7067094120889207 3.0744680498817014
+          children [
+            Shape {
+              geometry Box {
+                size 0.1 0.1 0.1
+              }
+            }
+            DEF Sandwhich_Wheel Shape {
+              appearance PBRAppearance {
+              }
+              geometry Cylinder {
+                height 0.05
+                radius 0.1
+              }
+            }
+          ]
+        }
+      ]
+      name "track1"
+      boundingObject Group {
+        children [
+          Pose {
+            translation 0.175 0 0
+            rotation 1 0 0 1.5708
+            children [
+              Cylinder {
+                height 0.1
+                radius 0.1
+              }
+            ]
+          }
+          Pose {
+            translation -0.175 0 0
+            rotation 1 0 0 1.5708
+            children [
+              Cylinder {
+                height 0.1
+                radius 0.1
+              }
+            ]
+          }
+          DEF Track_Box_Shape Box {
+            size 0.35 0.1 0.2
+          }
+        ]
+      }
+      physics Physics {
+      }
+      device [
+        LinearMotor {
+          name "leftMotor"
+        }
+      ]
+      animatedGeometry Shape {
+        appearance Appearance {
+          material Material {
+            diffuseColor 0 0 0
+          }
+        }
+        geometry DEF Track_Box_Shape Box {
+          size 0.05 0.1 0.01
+        }
+      }
+      geometriesCount 25
+    }
+    Track {
+      translation 0 -0.3 -0.125
+      children [
+        TrackWheel {
+          position 0.175 0
+          rotation 0.09593731028561638 0.7038438722737479 -0.7038464576581012 2.9503041711178972
+          children [
+            Shape {
+              geometry Box {
+                size 0.1 0.1 0.1
+              }
+            }
+            DEF Sandwhich_Wheel Shape {
+              appearance PBRAppearance {
+              }
+              geometry Cylinder {
+                height 0.05
+                radius 0.1
+              }
+            }
+          ]
+        }
+        TrackWheel {
+          position -0.175 0
+          rotation 0.09593731028561638 0.7038438722737479 -0.7038464576581012 2.9503041711178972
+          children [
+            Shape {
+              geometry Box {
+                size 0.1 0.1 0.1
+              }
+            }
+            DEF Sandwhich_Wheel Shape {
+              appearance PBRAppearance {
+              }
+              geometry Cylinder {
+                height 0.05
+                radius 0.1
+              }
+            }
+          ]
+        }
+      ]
+      name "track2"
+      boundingObject Group {
+        children [
+          Pose {
+            translation 0.175 0 0
+            rotation 1 0 0 1.5708
+            children [
+              Cylinder {
+                height 0.1
+                radius 0.1
+              }
+            ]
+          }
+          Pose {
+            translation -0.175 0 0
+            rotation 1 0 0 1.5708
+            children [
+              Cylinder {
+                height 0.1
+                radius 0.1
+              }
+            ]
+          }
+          DEF Track_Box_Shape Box {
+            size 0.35 0.1 0.2
+          }
+        ]
+      }
+      physics Physics {
+      }
+      device [
+        LinearMotor {
+          name "rightMotor"
+        }
+      ]
+      animatedGeometry Shape {
+        appearance Appearance {
+          material Material {
+            diffuseColor 0 0 0
+          }
+        }
+        geometry DEF Track_Box_Shape Box {
+          size 0.05 0.1 0.01
+        }
+      }
+      geometriesCount 25
+    }
+    DEF Plate Shape {
+      appearance BrushedAluminium {
+        colorOverride 1 0.5 0.4
+      }
+      geometry Box {
+        size 0.5 0.5 0.35
+      }
+    }
+  ]
+  boundingObject USE Plate
+  physics Physics {
+    density -1
+    mass 2
+  }
+  controller "SecondChallengeController"
+}
+CircleArena {
+  translation 0 0 0.1
+  radius 3
+  floorAppearance Parquetry {
+    type "dark strip"
+    IBLStrength 1000
+  }
+  floorTileSize 1 1
+  wallThickness 0.25
+  wallHeight 0.01
+  wallAppearance BrushedAluminium {
+    colorOverride 0 0 0
+  }
+}
+RubberDuck {
+  translation -2.25 0 0.178689
+  rotation -8.578522338372886e-08 -0.9999999999999963 1.1939497412930917e-11 8.8941969175448e-07
+  name "Evil duck"
+  scale 4
+  bodyColor 0.137255 0.439216 1
+  immersionProperties []
+}
+Solid {
+  translation 1 -2 0.274762
+  rotation 0.008062293369748152 0.005841025475927459 -0.9999504396953929 0.001310467154155428
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.533333 0.435294 0.235294
+          emissiveColor 0.533333 0.435294 0.235294
+          specularColor 1 1 1
+        }
+      }
+      geometry Box {
+        size 0.35 0.35 0.35
+      }
+    }
+  ]
+  name "Box"
+  boundingObject Box {
+    size 0.35 0.35 0.35
+  }
+  physics Physics {
+    density -1
+    mass 0.6
+  }
+}
+Solid {
+  translation 1 2 0.274762
+  rotation -0.00806229336972503 0.005841025475906735 0.9999504396953932 0.001310467154155223
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.533333 0.435294 0.235294
+          emissiveColor 0.533333 0.435294 0.235294
+          specularColor 1 1 1
+        }
+      }
+      geometry Box {
+        size 0.35 0.35 0.35
+      }
+    }
+  ]
+  name "Box(1)"
+  boundingObject Box {
+    size 0.35 0.35 0.35
+  }
+  physics Physics {
+    density -1
+    mass 0.6
+  }
+}
+Solid {
+  translation -1.5 -1.5 0.274796
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.172549 0.34902 0.521569
+          emissiveColor 0.172549 0.34902 0.521569
+          specularColor 1 1 1
+        }
+      }
+      geometry Sphere {
+        radius 0.175
+      }
+    }
+  ]
+  name "Ball"
+  boundingObject Sphere {
+    radius 0.175
+  }
+  physics Physics {
+    density -1
+    mass 0.13
+  }
+}
+Solid {
+  translation 2.25 0 0.274796
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.172549 0.34902 0.521569
+          emissiveColor 0.172549 0.34902 0.521569
+          specularColor 1 1 1
+        }
+      }
+      geometry Sphere {
+        radius 0.175
+      }
+    }
+  ]
+  name "Ball(1)"
+  boundingObject Sphere {
+    radius 0.175
+  }
+  physics Physics {
+    density -1
+    mass 0.13
+  }
+}
+Solid {
+  translation -1.5 1.5 0.274796
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.172549 0.34902 0.521569
+          emissiveColor 0.172549 0.34902 0.521569
+          specularColor 1 1 1
+        }
+      }
+      geometry Sphere {
+        radius 0.175
+      }
+    }
+  ]
+  name "Ball(2)"
+  boundingObject Sphere {
+    radius 0.175
+  }
+  physics Physics {
+    density -1
+    mass 0.13
+  }
+}
