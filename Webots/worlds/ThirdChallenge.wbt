@@ -13,8 +13,8 @@ EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/project
 WorldInfo {
 }
 Viewpoint {
-  orientation 0.2066061387440767 -0.6069061815622967 -0.7674495359401398 5.345849492752
-  position -7.705255537388511 -6.305490266655839 6.717115848706253
+  orientation -0.009538673755097354 -0.9998488863613507 -0.014533345965770378 4.748295210895964
+  position -0.6038971240888646 -0.1492055068298228 16.253171022193172
 }
 TexturedBackground {
 }
@@ -307,7 +307,7 @@ Robot {
     density -1
     mass 2
   }
-  controller "SecondChallengeController"
+  controller "ThirdChallengeController"
 }
 CircleArena {
   translation 0 0 0.1
@@ -381,7 +381,7 @@ Solid {
   }
 }
 Solid {
-  translation -0.75 -0.6 0.3
+  translation -0.75 -0.89 0.3
   children [
     Shape {
       appearance Appearance {
@@ -431,7 +431,7 @@ Solid {
   }
 }
 Solid {
-  translation -0.75 0.6 0.3
+  translation -0.75 0.87 0.3
   children [
     Shape {
       appearance Appearance {
