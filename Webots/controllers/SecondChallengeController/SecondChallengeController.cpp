@@ -99,6 +99,29 @@ int main(int argc, char** argv) {
     int height = camera->getWidth();
 
     //Robot AI goes here
+    MoveForward();
+    robot->step(TIME_STEP*50);
+    TurnLeft();
+    robot->step(TIME_STEP*19);
+    MoveForward();
+    robot->step(TIME_STEP*50);
+    TurnRight();
+    robot->step(TIME_STEP*19);
+    MoveForward();
+    robot->step(TIME_STEP*75);
+    TurnRight();
+    robot->step(TIME_STEP*19);
+    //is turned at top, clear duck
+    MoveForward();
+    robot->step(TIME_STEP*100);
+    MoveBack();
+    robot->step(TIME_STEP*50);
+    //parking
+    TurnRight();
+    robot->step(TIME_STEP*19);
+    MoveForward();
+    robot->step(TIME_STEP*35);
+    ResetMotors();
 
     while (robot->step(TIME_STEP) != -1) {
         //Gets the RGB of the bottom middle pixel on the camera
