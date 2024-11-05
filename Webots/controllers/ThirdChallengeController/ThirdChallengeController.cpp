@@ -153,7 +153,40 @@ int main(int argc, char** argv) {
     
     DriveForward(0);
     robot->step(TIME_STEP * 50);
+    ResetMotors();
     
+    MoveBack();
+    robot->step(TIME_STEP * 60);
+    ResetMotors();
+    
+    TurnRight();
+    robot->step(TIME_STEP * 25);
+    ResetMotors();
+    
+    DriveForward(-23);
+    robot->step(TIME_STEP * 175);
+    ResetMotors();
+    
+    TurnLeft();
+    while (robot->step(TIME_STEP) != -1) {
+        //Gets the RGB of the bottom middle pixel on the camera
+        int* rgb = GetRGB(width, height, 10);
+        //Print any test messages here
+        std::cout << "Red: " << rgb[0] << ", Green: " << rgb[1] << ", Blue: " << rgb[2] << std::endl;
+        turnTime++;
+        if (rgb[2] < 100) {
+            delete[] rgb;
+            break;
+        } else {
+            delete[] rgb;
+        }
+    }
+    ResetMotors();
+    robot->step(TIME_STEP * 5);
+    
+    DriveForward(0);
+    robot->step(TIME_STEP * 75);
+    ResetMotors();
 
     //End of AI
     ResetMotors();
