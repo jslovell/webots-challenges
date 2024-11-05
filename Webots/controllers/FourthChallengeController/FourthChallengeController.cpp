@@ -4,7 +4,7 @@
 #include <webots/TouchSensor.hpp>
 
 #define TIME_STEP 64
-#define MAX_SPEED .5
+#define MAX_SPEED 1
 #define MAX_CAMERA_SPEED 2.0
 
 // All the webots classes are defined in the "webots" namespace
@@ -70,11 +70,11 @@ static void ResetMotors() {
     cameraMotor->setVelocity(0);
 }
 
-int* GetRGB(int width, int height, int vertOffset) {
+int* GetRGB(int width, int height, int horizOffset, int vertOffset) {
     int* array = new int[3];
-    array[0] = camera->imageGetRed(camera->getImage(), width, width / 2, height-1-vertOffset);
-    array[1] = camera->imageGetGreen(camera->getImage(), width, width / 2, height-1-vertOffset);
-    array[2] = camera->imageGetBlue(camera->getImage(), width, width / 2, height-1-vertOffset);
+    array[0] = camera->imageGetRed(camera->getImage(), width, horizOffset, height-1-vertOffset);
+    array[1] = camera->imageGetGreen(camera->getImage(), width, horizOffset, height-1-vertOffset);
+    array[2] = camera->imageGetBlue(camera->getImage(), width, horizOffset, height-1-vertOffset);
     return array;
 }
 
@@ -108,23 +108,37 @@ int main(int argc, char** argv) {
 
     //Robot AI goes here
     
-    DriveForward(-30);
-    int turnTime = 0;
+    TurnRight();
     while (robot->step(TIME_STEP) != -1) {
         //Gets the RGB of the bottom middle pixel on the camera
-        int* rgb = GetRGB(width, height, 10);
+        int* rgb = GetRGB(width, height, width/2 , 0);
         //Print any test messages here
         std::cout << "Red: " << rgb[0] << ", Green: " << rgb[1] << ", Blue: " << rgb[2] << std::endl;
-        turnTime++;
         if (rgb[2] < 100) {
             delete[] rgb;
-            ResetMotors();
             break;
         } else {
             delete[] rgb;
         }
     }
-    robot->step(TIME_STEP * 5);
+    robot->step(TIME_STEP * 1);
+    ResetMotors();
+    robot->step(TIME_STEP * 1);
+    
+    while (robot->step(TIME_STEP) != -1) {
+        //Gets the RGB of the bottom middle pixel on the camera
+        int* rgb = GetRGB(width, height, 0, 0);
+        //Print any test messages here
+        std::cout << "Red: " << rgb[0] << ", Green: " << rgb[1] << ", Blue: " << rgb[2] << std::endl;
+        if (rgb[2] < 100) {
+            delete[] rgb;
+            DriveForward(-30);
+        } else {
+            delete[] rgb;
+            DriveForward(0);
+        }
+    }
+    
 
     //End of AI
     ResetMotors();
