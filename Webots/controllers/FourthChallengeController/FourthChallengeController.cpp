@@ -3,8 +3,8 @@
 #include <webots/Camera.hpp>
 #include <webots/TouchSensor.hpp>
 
-#define TIME_STEP 64
-#define MAX_SPEED 1
+#define TIME_STEP 32
+#define MAX_SPEED 1.5
 #define MAX_CAMERA_SPEED 2.0
 
 // All the webots classes are defined in the "webots" namespace
@@ -70,6 +70,11 @@ static void ResetMotors() {
     cameraMotor->setVelocity(0);
 }
 
+static void RammingSpeed() {
+    leftMotor->setVelocity(5);
+    rightMotor->setVelocity(5);
+}
+
 int* GetRGB(int width, int height, int horizOffset, int vertOffset) {
     int* array = new int[3];
     array[0] = camera->imageGetRed(camera->getImage(), width, horizOffset, height-1-vertOffset);
@@ -128,15 +133,25 @@ int main(int argc, char** argv) {
     while (robot->step(TIME_STEP) != -1) {
         //Gets the RGB of the bottom middle pixel on the camera
         int* rgb = GetRGB(width, height, 0, 0);
+        //int* rgbDuck = GetRGB(width, height, 0, 10);
         //Print any test messages here
         std::cout << "Red: " << rgb[0] << ", Green: " << rgb[1] << ", Blue: " << rgb[2] << std::endl;
-        if (rgb[2] < 100) {
-            delete[] rgb;
-            DriveForward(-30);
+        //std::cout << "Red: " << rgbDuck[0] << ", Green: " << rgbDuck[1] << ", Blue: " << rgbDuck[2] << std::endl;
+        if (rgb[0] < 100 && rgb[2] > 100) {
+            MoveForward();
+            robot->step(TIME_STEP * 50);
+            MoveBack();
+            robot->step(TIME_STEP * 50);
+            ResetMotors();
         } else {
-            delete[] rgb;
-            DriveForward(0);
+            if (rgb[0] < 100) {
+                DriveForward(-20);
+            } else {
+                DriveForward(-10);
+            }
         }
+        delete[] rgb;
+        //delete[] rgbDuck;
     }
     
 
