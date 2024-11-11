@@ -132,10 +132,11 @@ int main(int argc, char** argv) {
     
     while (robot->step(TIME_STEP) != -1) {
         //Gets the RGB of the bottom middle pixel on the camera
-        int* rgb = GetRGB(width, height, 0, 0);
+        int* rgb = GetRGB(width, height, 10, 0);
         //int* rgbDuck = GetRGB(width, height, 0, 10);
         //Print any test messages here
         std::cout << "Red: " << rgb[0] << ", Green: " << rgb[1] << ", Blue: " << rgb[2] << std::endl;
+        //std::cout << "Touch: " << rightSensor->getValue() << " " << leftSensor->getValue() << std::endl;
         //std::cout << "Red: " << rgbDuck[0] << ", Green: " << rgbDuck[1] << ", Blue: " << rgbDuck[2] << std::endl;
         if (rgb[0] < 100 && rgb[2] > 100) {
             MoveForward();
